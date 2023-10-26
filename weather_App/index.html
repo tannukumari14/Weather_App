@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="card">
+		<div class="search">
+			<input type="text" placeholder="enter city name" spellcheck="false"/>
+			<button><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS25XnfQQlh7jYG7xzsDrXK0_zpK9h-B617HA&usqp=CAU"
+			class="styled-image" ></button>
+		</div>
+		<div class="weather">
+			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7sLEPjSLpc2NSYaovet6o0sxKoRvbevWC_g&usqp=CAU" class="weather-icon">
+			<h1 class="temp"> 22°C</h1>
+			<h2 class="city">New York</h2>
+			<div class="details">
+			
+				<div class="col">
+  <img src="https://banner2.cleanpng.com/20180421/peq/kisspng-computer-icons-moisture-humidity-wave-moisture-5adaf29886b1d0.7519228015242983925517.jpg" class="humidity_img">
+  <div class="humidity_text"> 
+    <p class="humidity">50%</p>
+    <p>Humidity</p>
+  </div>
+</div>
+
+<div class="col2">
+  <img src="https://banner2.cleanpng.com/20180703/hex/kisspng-computer-icons-windy-clip-art-5b3be7705d7e46.398848871530652528383.jpg" class="wind_img">
+  <div class="wind">
+    <p class="wind-speed">50 km/h</p>
+    <p>Wind Speed</p>
+  </div>
+</div>
+
+				
+			</div>
+		</div>
+	</div>
+	<script>
+		const apiKey = "34218f4facdf1adb47002ff5504d6059";
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+const searchBox = document.querySelector(".search input");
+const searchBtn = document.querySelector(".search button");
+
+async function checkWeather(city) {
+  try {
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    console.log(data);
+    document.querySelector(".city").innerHTML = data.name;
+    document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+    document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+    document.querySelector(".wind-speed").innerHTML = data.wind.speed + " km/h";
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+  }
+}
+
+// Add an event listener to the search button
+searchBtn.addEventListener("click", () => {
+  const city = searchBox.value;
+  checkWeather(city);
+});
+
+// Initial weather check when the page loads
+checkWeather("New York"); // You can specify a default city here
+
+	</script>
+</body>
+</html>
+
